@@ -10,6 +10,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -48,6 +49,14 @@ public class TaskService {
     public void delete(Long id) {
         repository.deleteById(id);
     }
+
+    public List<TaskDTO> getTasksByUserId(Long userId) {
+        List<Task> tasks = repository.findByUserId(userId);
+        return tasks.stream()
+                .map(TaskDTO::new) // supondo que seu DTO tem construtor TaskDTO(Task)
+                .collect(Collectors.toList());
+    }
+
 
     public List<TaskDTO> filter(TaskStatus status, Long userId) {
         if (status != null && userId != null)

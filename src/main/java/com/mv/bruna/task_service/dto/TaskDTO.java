@@ -15,6 +15,19 @@ public class TaskDTO {
     private LocalDate dueDate;
     private Long userId;
 
+    public TaskDTO(Task task) {
+        this.id = task.getId();
+        this.title = task.getTitle();
+        this.description = task.getDescription();
+        this.status = task.getStatus();
+        this.createdAt = task.getCreatedAt();
+        this.dueDate = task.getDueDate();
+        this.userId = task.getUserId();
+    }
+
+    public TaskDTO() {
+    }
+
     public Long getId() {
         return id;
     }

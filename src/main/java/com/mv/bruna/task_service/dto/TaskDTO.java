@@ -15,14 +15,14 @@ public class TaskDTO {
     private LocalDate dueDate;
     private Long userId;
 
-    public TaskDTO(Task task) {
-        this.id = task.getId();
-        this.title = task.getTitle();
-        this.description = task.getDescription();
-        this.status = task.getStatus();
-        this.createdAt = task.getCreatedAt();
-        this.dueDate = task.getDueDate();
-        this.userId = task.getUserId();
+    public TaskDTO(Long id, String title, String description, TaskStatus status, LocalDateTime createdAt, LocalDate dueDate, Long userId) {
+        this.id = id;
+        this.title = title;
+        this.description = description;
+        this.status = status;
+        this.createdAt = createdAt;
+        this.dueDate = dueDate;
+        this.userId = userId;
     }
 
     public TaskDTO() {

@@ -1,0 +1,137 @@
+openapi: 3.0.1
+info:
+  title: Task Microservice API
+  version: 1.0.0
+  description: API REST para gerenciamento de tarefas
+servers:
+  - url: http://localhost:8082/api
+paths:
+  /tasks:
+    get:
+      summary: Lista todas as tarefas (com filtros opcionais)
+      parameters:
+        - in: query
+          name: status
+          schema:
+            type: string
+            enum: [PENDING, IN_PROGRESS, COMPLETED]
+        - in: query
+          name: userId
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Lista de tarefas
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TaskDTO'
+    post:
+      summary: Cria uma nova tarefa
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TaskDTO'
+      responses:
+        '201':
+          description: Tarefa criada com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaskDTO'
+  /tasks/{id}:
+    get:
+      summary: Busca uma tarefa pelo ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Tarefa encontrada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaskDTO'
+        '404':
+          description: Tarefa não encontrada
+    put:
+      summary: Atualiza uma tarefa
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TaskDTO'
+      responses:
+        '200':
+          description: Tarefa atualizada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaskDTO'
+    delete:
+      summary: Remove uma tarefa
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Tarefa removida
+  /tasks/user/{userId}:
+    get:
+      summary: Lista tarefas por ID de usuário
+      parameters:
+        - in: path
+          name: userId
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Lista de tarefas do usuário
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TaskDTO'
+components:
+  schemas:
+    TaskDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        title:
+          type: string
+          example: Tarefa exemplo
+        description:
+          type: string
+          example: Descrição da tarefa
+        status:
+          type: string
+          enum: [PENDING, IN_PROGRESS, COMPLETED]
+        dueDate:
+          type: string
+          format: date
+          example: 2025-06-25
+        userId:
+          type: integer
+          example: 1

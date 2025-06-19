@@ -4,7 +4,9 @@ import com.mv.bruna.task_service.enums.TaskStatus;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -13,6 +15,8 @@ import static com.mv.bruna.task_service.enums.TaskStatus.PENDING;
 
 @Entity
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "tasks")
 public class Task {
 
@@ -34,9 +38,6 @@ public class Task {
 
     @NotNull
     private Long userId;
-
-    public Task(long l, String tarefa, String descrição, TaskStatus taskStatus, LocalDate localDate, long l1) {
-    }
 
     @PrePersist
     protected void onCreate() {

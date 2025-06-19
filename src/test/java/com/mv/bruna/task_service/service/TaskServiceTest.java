@@ -32,7 +32,13 @@ public class TaskServiceTest {
 
     @BeforeEach
     void setup() {
-        sampleTask = new Task(1L, "Tarefa", "Descrição", TaskStatus.PENDING, LocalDate.now().plusDays(3), 100L);
+        sampleTask = new Task();
+        sampleTask.setId(1L);
+        sampleTask.setTitle("Tarefa");
+        sampleTask.setDescription("Descrição");
+        sampleTask.setStatus(TaskStatus.PENDING);
+        sampleTask.setDueDate(LocalDate.now().plusDays(3));
+        sampleTask.setUserId(100L);
     }
 
     @Test

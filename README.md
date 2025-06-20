@@ -58,26 +58,22 @@ Isso irá subir:
 
 ---
 
+## 🧩 Arquitetura da Aplicação
+
+A aplicação backend foi desenvolvida com **Spring Boot**, seguindo o **padrão de projeto MVC (Model-View-Controller)**. A comunicação entre as camadas é feita de forma desacoplada utilizando **DTOs (Data Transfer Objects)** para garantir uma melhor organização e segurança dos dados trafegados.
+
 ## 🧪 Rodando os Testes
 
-O projeto possui testes com cobertura de:
-
-- Camada de serviço (`TaskService`)
-- Camada de controller (`TaskController`)
-- Integração com banco real via Testcontainers ou PostgreSQL Docker
-
-Para rodar os testes de integração:
+Para executar os testes (unitários e de integração), utilize o seguinte comando na raiz da pasta do microsserviço:
 
 ```bash
-# Dentro da pasta task-microservice
-chmod +x test-run.sh
-./test-run.sh
+mvn clean test
 ```
 
-Este script executa:
-- Subida do banco PostgreSQL de testes
-- Execução dos testes com o perfil `test`
-- Finalização e remoção do container
+Esse comando irá compilar o projeto e executar todos os testes disponíveis, incluindo:
+
+- Testes de unidade dos serviços (`TaskService`)
+- Testes de integração dos controllers e repositories, com banco de dados real via **Testcontainers**
 
 ---
 

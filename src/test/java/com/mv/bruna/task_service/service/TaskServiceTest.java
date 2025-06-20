@@ -70,7 +70,12 @@ public class TaskServiceTest {
 
     @Test
     void shouldCreateTask() {
-        TaskDTO dto = new TaskDTO(null, "Nova", "Descricao", TaskStatus.PENDING, LocalDate.now(), 1L);
+        TaskDTO dto = new TaskDTO();
+        dto.setDescription("test description");
+        dto.setTitle("test title");
+        dto.setUserId(1L);
+        dto.setDueDate(LocalDate.now());
+
         Mockito.when(repository.save(Mockito.any(Task.class)))
                 .thenAnswer(invocation -> {
                     Task t = invocation.getArgument(0);
@@ -80,29 +85,33 @@ public class TaskServiceTest {
 
         TaskDTO result = taskService.create(dto);
 
-        assertEquals("Nova", result.getTitle());
+        assertEquals(dto.getTitle(), result.getTitle());
         assertNotNull(result.getId());
     }
 
     @Test
     void shouldUpdateTask_WhenNotCompleted() {
-        TaskDTO dto = new TaskDTO(null, "Atualizada", "desc", TaskStatus.IN_PROGRESS, LocalDate.now(), 1L);
+        TaskDTO dto = new TaskDTO();
+        dto.setTitle("updated title");
+        dto.setDueDate(LocalDate.now());
+
         Mockito.when(repository.findById(1L)).thenReturn(Optional.of(sampleTask));
         Mockito.when(repository.save(Mockito.any(Task.class))).thenAnswer(i -> i.getArgument(0));
 
         TaskDTO updated = taskService.update(1L, dto);
-
-        assertEquals("Atualizada", updated.getTitle());
+        assertEquals(sampleTask.getDescription(), updated.getDescription());
+        assertEquals(dto.getTitle(), updated.getTitle());
     }
 
     @Test
     void shouldThrowOnUpdate_WhenTaskIsCompleted() {
         sampleTask.setStatus(TaskStatus.COMPLETED);
-        TaskDTO dto = new TaskDTO(null, "Edit", "Edit", TaskStatus.PENDING, LocalDate.now(), 1L);
+        TaskDTO dto = new TaskDTO();
+        dto.setTitle("updated title");
         Mockito.when(repository.findById(1L)).thenReturn(Optional.of(sampleTask));
-
         CustomHttpException ex = assertThrows(CustomHttpException.class, () -> taskService.update(1L, dto));
         assertEquals("Tarefas concluídas não podem ser editadas", ex.getErrorResponse().getErrorMessage());
+        assertNotEquals(sampleTask.getTitle(), dto.getTitle());
     }
 
     @Test

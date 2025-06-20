@@ -28,8 +28,6 @@ public class TaskDTO {
     public TaskDTO() {
     }
 
-    public TaskDTO(Object o, String nova, String descricao, TaskStatus taskStatus, LocalDate now, long l) {
-    }
 
     public Long getId() {
         return id;
